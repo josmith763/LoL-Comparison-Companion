@@ -1,0 +1,878 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "League of Legends Comparison Companion",
+    "description" : "Provides statistics for you and the option to compare your stats with another persons. Created by Joshua Smith. NOTE: You will need your own Riot account and API key to access their API functionality. Use the Riot server for all /lol requests, and the virtual server for the /survey requests.",
+    "version" : "1.0.0"
+  },
+  "externalDocs" : {
+    "description" : "Riot Developer Portal",
+    "url" : "https://developer.riotgames.com/docs/lol"
+  },
+  "servers" : [ {
+    "url" : "https://na1.api.riotgames.com",
+    "description" : "Riot Games Server"
+  }, {
+    "url" : "https://virtserver.swaggerhub.com/ddd647/League-of-Legends-Comparison-Companion/1.0.0",
+    "description" : "SwaggerHub API Auto Mocking"
+  } ],
+  "security" : [ {
+    "ApiKeyAuth" : [ ]
+  } ],
+  "paths" : {
+    "/lol/summoner/v4/summoners/by-name/{summonerName}" : {
+      "get" : {
+        "tags" : [ "Summoner Information" ],
+        "summary" : "View summoner information",
+        "description" : "Returns summoner information by name",
+        "operationId" : "viewSumInfo",
+        "parameters" : [ {
+          "name" : "summonerName",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "limit",
+          "in" : "query",
+          "description" : "Limits the number of items on a page",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "Specifies the page number to be displayed",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Summoner operation was successful",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/summoner"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid Request, incorrect information supplied",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Authentication information is missing or invalid",
+            "headers" : {
+              "WWW_Authenticate" : {
+                "style" : "simple",
+                "explode" : false,
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The requested resource doesn't exist.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lol/match/v4/matchlists/by-account/{encryptedAccountId}" : {
+      "get" : {
+        "tags" : [ "Summoner Information" ],
+        "summary" : "View match history",
+        "description" : "Returns entire match history off the id",
+        "operationId" : "viewMatchHistory",
+        "parameters" : [ {
+          "name" : "encryptedAccountId",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "limit",
+          "in" : "query",
+          "description" : "Limits the number of items on a page",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "Specifies the page number to be displayed",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Match history operation was successful",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/matchHistory"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid Request, incorrect information supplied",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Authentication information is missing or invalid",
+            "headers" : {
+              "WWW_Authenticate" : {
+                "style" : "simple",
+                "explode" : false,
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The requested resource doesn't exist.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lol/match/v4/matches/{matchId}" : {
+      "get" : {
+        "tags" : [ "Summoner Information" ],
+        "summary" : "View match details",
+        "description" : "Returns entire match details off the  match id",
+        "operationId" : "viewMatchDetails",
+        "parameters" : [ {
+          "name" : "matchId",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "limit",
+          "in" : "query",
+          "description" : "Limits the number of items on a page",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "Specifies the page number to be displayed",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Match operation was successful",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/match"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid Request, incorrect information supplied",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Authentication information is missing or invalid",
+            "headers" : {
+              "WWW_Authenticate" : {
+                "style" : "simple",
+                "explode" : false,
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The requested resource doesn't exist.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/survey" : {
+      "get" : {
+        "tags" : [ "Survey" ],
+        "summary" : "View Surveys",
+        "description" : "Returns all the results of the surveys",
+        "operationId" : "viewSurvey",
+        "parameters" : [ {
+          "name" : "limit",
+          "in" : "query",
+          "description" : "Limits the number of items on a page",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "Specifies the page number to be displayed",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Survey list operation was successful",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/surveys"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid Request, incorrect information supplied",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Authentication information is missing or invalid",
+            "headers" : {
+              "WWW_Authenticate" : {
+                "style" : "simple",
+                "explode" : false,
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The requested resource doesn't exist.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "basicAuth" : [ ]
+        } ]
+      },
+      "post" : {
+        "tags" : [ "Survey" ],
+        "summary" : "Insert Survey",
+        "description" : "Insert Survey",
+        "operationId" : "insertSurvey",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/survey"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successful Operation"
+          },
+          "400" : {
+            "description" : "Invalid Request, incorrect information supplied",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Authentication information is missing or invalid",
+            "headers" : {
+              "WWW_Authenticate" : {
+                "style" : "simple",
+                "explode" : false,
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The requested resource doesn't exist.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "basicAuth" : [ ]
+        } ]
+      }
+    },
+    "/survey/{summonerName}" : {
+      "get" : {
+        "tags" : [ "Survey" ],
+        "summary" : "View Specific Survey",
+        "description" : "Returns a specific survey",
+        "operationId" : "viewSurveyByName",
+        "parameters" : [ {
+          "name" : "summonerName",
+          "in" : "path",
+          "description" : "The name that the survey is associated with",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "limit",
+          "in" : "query",
+          "description" : "Limits the number of items on a page",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "Specifies the page number to be displayed",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Survey Operation was successful",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/survey"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid Request, incorrect information supplied",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Authentication information is missing or invalid",
+            "headers" : {
+              "WWW_Authenticate" : {
+                "style" : "simple",
+                "explode" : false,
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The requested resource doesn't exist.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "basicAuth" : [ ]
+        } ]
+      },
+      "put" : {
+        "tags" : [ "Survey" ],
+        "summary" : "Update an existing survey",
+        "description" : "Update an existing survey",
+        "operationId" : "updateSurvey",
+        "parameters" : [ {
+          "name" : "summonerName",
+          "in" : "path",
+          "description" : "The name that the survey is associated with",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "description" : "Updated survey object",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/survey"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Survey Operation was successful",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/survey"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid Request, incorrect information supplied",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Authentication information is missing or invalid",
+            "headers" : {
+              "WWW_Authenticate" : {
+                "style" : "simple",
+                "explode" : false,
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The requested resource doesn't exist.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "basicAuth" : [ ]
+        } ]
+      },
+      "delete" : {
+        "tags" : [ "Survey" ],
+        "summary" : "Delete an existing survey",
+        "description" : "Delete an existing survey",
+        "operationId" : "deleteSurvey",
+        "parameters" : [ {
+          "name" : "summonerName",
+          "in" : "path",
+          "description" : "The name that the survey is associated with",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Survey Operation was successful",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/survey"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid Request, incorrect information supplied",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Authentication information is missing or invalid",
+            "headers" : {
+              "WWW_Authenticate" : {
+                "style" : "simple",
+                "explode" : false,
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "The requested resource doesn't exist.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "basicAuth" : [ ]
+        } ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "summoner" : {
+        "required" : [ "summonerName" ],
+        "type" : "object",
+        "properties" : {
+          "encryptedAccountId" : {
+            "type" : "string"
+          },
+          "summonerName" : {
+            "type" : "string"
+          }
+        }
+      },
+      "matchHistory" : {
+        "required" : [ "encryptedAccountId" ],
+        "type" : "object",
+        "properties" : {
+          "gameId" : {
+            "type" : "integer"
+          },
+          "champion" : {
+            "type" : "string"
+          },
+          "lane" : {
+            "type" : "string"
+          }
+        }
+      },
+      "match" : {
+        "required" : [ "gameId" ],
+        "type" : "object",
+        "properties" : {
+          "gameMode" : {
+            "type" : "string"
+          },
+          "win" : {
+            "type" : "boolean"
+          },
+          "kills" : {
+            "type" : "integer"
+          },
+          "deaths" : {
+            "type" : "integer"
+          },
+          "assists" : {
+            "type" : "integer"
+          },
+          "creepsPerMin" : {
+            "type" : "number"
+          },
+          "xpPerMinDeltas" : {
+            "type" : "number"
+          },
+          "goldPerMin" : {
+            "type" : "number"
+          },
+          "csDiffPerMin" : {
+            "type" : "number"
+          },
+          "xpDiffPerMin" : {
+            "type" : "number"
+          },
+          "lane" : {
+            "type" : "string"
+          },
+          "visionScore" : {
+            "type" : "integer"
+          },
+          "champLevel" : {
+            "type" : "integer"
+          },
+          "enemyLanerLvl" : {
+            "type" : "integer"
+          }
+        }
+      },
+      "surveys" : {
+        "type" : "array",
+        "description" : "Array of survey info",
+        "items" : {
+          "$ref" : "#/components/schemas/survey"
+        }
+      },
+      "survey" : {
+        "required" : [ "summonerName" ],
+        "type" : "object",
+        "properties" : {
+          "summonerName" : {
+            "type" : "string",
+            "example" : "Fringard"
+          },
+          "actualRank" : {
+            "type" : "string",
+            "example" : "None",
+            "enum" : [ "None", "Iron", "Bronze", "Silver", "Gold", "Platinum", "Diamond", "Master", "Challenger" ]
+          },
+          "rankShouldBeIn" : {
+            "type" : "string",
+            "example" : "Silver",
+            "enum" : [ "None", "Iron", "Bronze", "Silver", "Gold", "Platinum", "Diamond", "Master", "Challenger" ]
+          }
+        }
+      },
+      "inline_response_400" : {
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "responses" : {
+      "200StatusSummoner" : {
+        "description" : "Summoner operation was successful",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/summoner"
+              }
+            }
+          }
+        }
+      },
+      "200StatusMatches" : {
+        "description" : "Match history operation was successful",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/matchHistory"
+              }
+            }
+          }
+        }
+      },
+      "200StatusMatch" : {
+        "description" : "Match operation was successful",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/match"
+              }
+            }
+          }
+        }
+      },
+      "200StatusSurveys" : {
+        "description" : "Survey list operation was successful",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/surveys"
+            }
+          }
+        }
+      },
+      "200StatusSurvey" : {
+        "description" : "Survey Operation was successful",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/survey"
+            }
+          }
+        }
+      },
+      "400Error" : {
+        "description" : "Invalid Request, incorrect information supplied",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/inline_response_400"
+            }
+          }
+        }
+      },
+      "401Error" : {
+        "description" : "Authentication information is missing or invalid",
+        "headers" : {
+          "WWW_Authenticate" : {
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "404Error" : {
+        "description" : "The requested resource doesn't exist.",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/inline_response_400"
+            }
+          }
+        }
+      }
+    },
+    "parameters" : {
+      "PageLimit" : {
+        "name" : "limit",
+        "in" : "query",
+        "description" : "Limits the number of items on a page",
+        "required" : false,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "integer"
+        }
+      },
+      "PageOffset" : {
+        "name" : "offset",
+        "in" : "query",
+        "description" : "Specifies the page number to be displayed",
+        "required" : false,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "securitySchemes" : {
+      "ApiKeyAuth" : {
+        "type" : "apiKey",
+        "name" : "X-Riot-Token",
+        "in" : "header"
+      },
+      "basicAuth" : {
+        "type" : "http",
+        "scheme" : "basic"
+      }
+    }
+  }
+}
